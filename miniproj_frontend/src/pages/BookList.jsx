@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import mockBooks from '../data/mockBooks';
+import { fetchBooks } from '../api/bookApi';
 
 const BookList = () => {
   const navigate = useNavigate();
@@ -9,9 +10,22 @@ const BookList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const booksPerPage = 5;
 
+  // useEffect(() => {
+  //   setBooks(mockBooks);
+  //   // axios.get('/api/books').then(res => setBooks(res.data));
+  // }, []);
+
   useEffect(() => {
-    setBooks(mockBooks);
-    // axios.get('/api/books').then(res => setBooks(res.data));
+    const loadBooks = async () => {
+      try {
+        const data = await fetchBooks();
+        setBooks(data);
+      } catch (error) {
+        console.error("도서 목록을 불러오는데 실패했습니다", error);
+      }
+    };
+
+    loadBooks();
   }, []);
 
   const filteredBooks = books.filter((book) =>

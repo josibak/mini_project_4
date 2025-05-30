@@ -65,3 +65,9 @@ const coverStyle = {
 };
 
 export default Home;
+
+
+// 책 목록 조회
+// 책 -> BookDetail
+// 도서목록 -> Booklist - 책 누르면 -> BookDetail
+// 도서추가 -> BookCreate - 저장 -> userbooklist - 수정 -> BookEdit

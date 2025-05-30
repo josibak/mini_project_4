@@ -1,13 +1,15 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import mockBooks from '../data/mockBooks';
+import { fetchBookById } from '../api/bookApi';
+// import mockBooks from '../data/mockBooks';
 // import axios from 'axios';
 
 const BookDetail = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const book = mockBooks.find(b => b.id === Number(id));
-  // const [book, setBook] = useState(null);
+  // const book = mockBooks.find(b => b.id === Number(id));
+  const [book, setBook] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   // ✅ 실제 API 연결 시 사용
   /*
@@ -15,6 +17,20 @@ const BookDetail = () => {
     axios.get(`/api/books/${id}`).then(res => setBook(res.data));
   }, [id]);
   */
+
+  useEffect(() => {
+    const loadBooks = async() => {
+      try {
+        const data = await fetchBookById(id);
+        setBook(data);
+      } catch (error) {
+        alert("도서 정보를 불러오는데 실패했습니다.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadBooks();
+  }, [id]);
 
   if (!book) return <p style={{ padding: 20 }}>도서 정보를 찾을 수 없습니다.</p>;
 
