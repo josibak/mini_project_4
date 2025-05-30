@@ -7,13 +7,32 @@ const BookCreate = () => {
   const navigate = useNavigate();
 
   const saveBook = () => {
-    // 저장 로직!
-    console.log('책 저장:', { title, content });
+    const userBooks = JSON.parse(localStorage.getItem('userBooks') || '[]');
+    const newId = userBooks.length > 0 ? Math.max(...userBooks.map(b => b.id)) + 1 : 1;
+
+    const newBook = {
+      id: newId,
+      title,
+      content,
+      created_at: new Date().toISOString().split('T')[0],
+      updated_at: new Date().toISOString().split('T')[0],
+    };
+
+    const updatedBooks = [...userBooks, newBook];
+    localStorage.setItem('userBooks', JSON.stringify(updatedBooks));
+
+    return newBook;
   };
 
   const handleAICover = () => {
-    saveBook();
-    navigate('/aicover');
+    const created = saveBook();
+    navigate('/ai-cover', {
+      state: {
+        id: created.id,
+        title: created.title,
+        content: created.content,
+      }
+    });
   };
 
   const handleSave = () => {
@@ -47,11 +66,11 @@ const BookCreate = () => {
         >My</span>
       </div>
 
-      {/* 본문 전체를 브라우저 폭에 맞게! */}
+      {/* 본문 */}
       <div
         style={{
           width: '100%',
-          padding: '32px 10vw', // 좌우에만 10vw씩 여백(너무 붙으면 답답하니까)
+          padding: '32px 10vw',
           boxSizing: 'border-box',
         }}
       >
