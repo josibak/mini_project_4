@@ -1,14 +1,147 @@
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const BookCreate = () => {
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
   const navigate = useNavigate();
 
+  const saveBook = () => {
+    // 저장 로직!
+    console.log('책 저장:', { title, content });
+  };
+
+  const handleAICover = () => {
+    saveBook();
+    navigate('/aicover');
+  };
+
+  const handleSave = () => {
+    saveBook();
+    navigate('/my');
+  };
+
   return (
-    <div>
-      <button onClick={() => navigate('/user-book-list')}>저장 버튼</button>
-      <button onClick={() => navigate('/ai-cover')}>AI 커버 변경 버튼</button>
-      <button onClick={() => navigate('/user-book-list')}>마이 버튼</button>
-      <button onClick={() => navigate('/home')}>홈 버튼</button>
+    <div style={{ fontFamily: 'sans-serif', background: '#f7f7f7', minHeight: '100vh' }}>
+      {/* 상단 네비 */}
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          backgroundColor: '#ddd',
+          padding: '10px 20px',
+          alignItems: 'center',
+          position: 'sticky',
+          top: 0,
+          zIndex: 10,
+        }}
+      >
+        <span
+          style={{ color: 'blue', cursor: 'pointer', fontWeight: 600 }}
+          onClick={() => navigate('/home')}
+        >홈</span>
+        <h3 style={{ margin: 0 }}>도서 추가</h3>
+        <span
+          style={{ color: 'blue', cursor: 'pointer', fontWeight: 600 }}
+          onClick={() => navigate('/my')}
+        >My</span>
+      </div>
+
+      {/* 본문 전체를 브라우저 폭에 맞게! */}
+      <div
+        style={{
+          width: '100%',
+          padding: '32px 10vw', // 좌우에만 10vw씩 여백(너무 붙으면 답답하니까)
+          boxSizing: 'border-box',
+        }}
+      >
+        <div
+          style={{
+            background: '#fff',
+            borderRadius: 8,
+            boxShadow: '0 2px 10px rgba(0,0,0,0.07)',
+            width: '100%',
+            padding: '32px 24px',
+            boxSizing: 'border-box',
+          }}
+        >
+          <div style={{ marginBottom: 20 }}>
+            <div style={{ background: '#ddd', padding: 8, fontWeight: 600, marginBottom: 8 }}>1. 책 제목</div>
+            <input
+              type="text"
+              value={title}
+              onChange={e => setTitle(e.target.value)}
+              placeholder="책 제목을 입력하세요"
+              style={{
+                width: '100%',
+                padding: 12,
+                background: '#aea7a7',
+                border: 'none',
+                borderRadius: 4,
+                color: '#222',
+                fontSize: 16,
+                marginBottom: 8,
+                boxSizing: 'border-box',
+              }}
+            />
+          </div>
+          <div style={{ marginBottom: 32 }}>
+            <div style={{ background: '#ddd', padding: 8, fontWeight: 600, marginBottom: 8 }}>2. 내용</div>
+            <textarea
+              value={content}
+              onChange={e => setContent(e.target.value)}
+              placeholder="책 내용을 입력하세요"
+              style={{
+                width: '100%',
+                minHeight: 120,
+                background: '#aea7a7',
+                border: 'none',
+                borderRadius: 4,
+                color: '#222',
+                padding: 12,
+                fontSize: 16,
+                resize: 'vertical',
+                boxSizing: 'border-box',
+              }}
+            />
+          </div>
+
+          <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
+            <button
+              onClick={handleAICover}
+              style={{
+                flex: 1,
+                background: '#bfcfff',
+                color: '#0070ff',
+                border: 'none',
+                borderRadius: 6,
+                padding: '12px 0',
+                fontWeight: 700,
+                fontSize: 16,
+                cursor: 'pointer',
+              }}
+            >
+              AI 커버 생성
+            </button>
+            <button
+              onClick={handleSave}
+              style={{
+                flex: 1,
+                background: '#bfcfff',
+                color: '#0070ff',
+                border: 'none',
+                borderRadius: 6,
+                padding: '12px 0',
+                fontWeight: 700,
+                fontSize: 16,
+                cursor: 'pointer',
+              }}
+            >
+              저장
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
