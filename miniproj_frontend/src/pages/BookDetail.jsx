@@ -2,6 +2,8 @@ import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchBookById } from '../api/bookApi';
 // import mockBooks from '../data/mockBooks';
+import mockBooks from '../data/mockBooks';
+import mockUserBooks from '../data/mockUserBooks';
 // import axios from 'axios';
 
 const BookDetail = () => {
