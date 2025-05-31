@@ -1,4 +1,4 @@
-import axiosInstance from './axiosInstance';
+import axiosInstance from './axios';
 
 // 전체 도서 조회
 export const fetchBooks = async (title = '') => {
@@ -6,9 +6,14 @@ export const fetchBooks = async (title = '') => {
     const response = await axiosInstance.get('', {
       params: title ? { title } : {},
     });
+    console.log('📦 백엔드 응답:', response);
     return response.data;
   } catch (error) {
     console.error('Error fetching books:', error);
+    console.error('❌ Axios 요청 실패');
+    console.error('🔻 message:', error.message);
+    console.error('🔻 code:', error.code);
+    console.error('🔻 response:', error.response);
     throw error;
   }
 };

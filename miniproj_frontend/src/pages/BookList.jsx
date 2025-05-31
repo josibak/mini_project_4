@@ -19,6 +19,7 @@ const BookList = () => {
     const loadBooks = async () => {
       try {
         const data = await fetchBooks();
+        console.log("불러온 책 목록", data);
         setBooks(data);
       } catch (error) {
         console.error("도서 목록을 불러오는데 실패했습니다", error);

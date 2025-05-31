@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { createBook } from '../api/bookApi';
 
 const BookCreate = () => {
   const [title, setTitle] = useState('');
@@ -35,9 +36,13 @@ const BookCreate = () => {
     });
   };
 
-  const handleSave = () => {
-    saveBook();
-    navigate('/my');
+  const handleSave = async() => {
+    try {
+      const created = await createBook({title, content});
+      navigate('/my');
+    } catch (error) {
+      
+    }
   };
 
   return (
