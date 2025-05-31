@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { fetchBooks } from '../api/bookApi'; // ✅ 실제 API 호출 함수
+import { fetchBooks } from '../api/bookApi';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -12,7 +12,6 @@ const Home = () => {
     const loadBooks = async () => {
       try {
         const data = await fetchBooks();
-        // 최신순 정렬이 되어 있다고 가정하고 상위 3개만 추출
         const recentBooks = data.slice(0, 3);
         setBooks(recentBooks);
       } catch (error) {
@@ -93,9 +92,9 @@ const Home = () => {
               >
                 {/* 커버 이미지 또는 대체 UI */}
                 <div style={coverStyle}>
-                  {book.cover ? (
+                  {book.coverImageUrl ? (
                     <img
-                      src={book.cover}
+                      src={book.coverImageUrl}
                       alt="표지"
                       style={{
                         width: '100%',

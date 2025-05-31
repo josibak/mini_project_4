@@ -64,9 +64,9 @@ const UserBookList = () => {
                 style={{ display: 'flex', alignItems: 'center', flex: 1, cursor: 'pointer' }}
               >
                 <div style={coverStyle}>
-                  {book.cover ? (
+                  {book.coverImageUrl ? (
                     <img
-                      src={book.cover}
+                      src={book.coverImageUrl}
                       alt="cover"
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     />

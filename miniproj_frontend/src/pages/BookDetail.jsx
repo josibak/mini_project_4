@@ -6,7 +6,7 @@ import { fetchBookById } from '../api/bookApi';
 
 const BookDetail = () => {
   const navigate = useNavigate();
-  const { id } = useParams(); // URL에서 book_id 추출
+  const { id } = useParams();
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -51,11 +51,11 @@ const BookDetail = () => {
       {/* 도서 정보 영역 */}
       <div style={{ backgroundColor: '#eee', padding: 30, margin: 30 }}>
         <div style={{ display: 'flex', gap: 20 }}>
-          {/* 커버 이미지 또는 대체 UI */}
+          {/* 커버 이미지 */}
           <div style={coverStyle}>
-            {book.cover ? (
+            {book.coverImageUrl ? (
               <img
-                src={book.cover}
+                src={book.coverImageUrl}
                 alt="커버"
                 style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 4 }}
               />
@@ -64,7 +64,7 @@ const BookDetail = () => {
             )}
           </div>
 
-          {/* 책 메타 정보 */}
+          {/* 책 정보 */}
           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             <div>
               <strong>제목:</strong> {book.title}
@@ -81,7 +81,7 @@ const BookDetail = () => {
           </div>
         </div>
 
-        {/* 내용 스크롤 박스 */}
+        {/* 책 내용 */}
         <div style={scrollBoxStyle}>{book.content}</div>
       </div>
     </div>

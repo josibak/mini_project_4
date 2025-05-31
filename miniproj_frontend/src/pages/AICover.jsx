@@ -34,7 +34,6 @@ const AICover = () => {
 
     try {
       setLoading(true);
-      // 제목/내용/프롬프트를 하나의 텍스트로 합침
       const fullPrompt = `제목: ${title}\n내용: ${content}\n요청: ${prompt}`;
       const url = await generateImageFromPrompt(apiKey, fullPrompt, model, quality, style);
       setImageUrl(url);
@@ -54,7 +53,7 @@ const AICover = () => {
     }
 
     try {
-      await updateBook(bookId, { cover: imageUrl || null });
+      await updateBook(bookId, { coverImageUrl: imageUrl || null }); // ✅ 수정된 부분
       navigate('/my');
     } catch (error) {
       alert('커버 저장 실패');
@@ -103,7 +102,7 @@ const AICover = () => {
             boxSizing: 'border-box',
           }}
         >
-          {/* 1. API 키 입력 (type=password) */}
+          {/* 1. API 키 입력 */}
           <div style={{ marginBottom: 20 }}>
             <div style={{ background: '#ddd', padding: 8, fontWeight: 600, marginBottom: 8 }}>
               1. OpenAI API 키
@@ -125,10 +124,10 @@ const AICover = () => {
             />
           </div>
 
-          {/* 2. 책 제목/내용 미리보기 */}
+          {/* 2. 도서 정보 */}
           <div style={{ marginBottom: 20 }}>
             <div style={{ background: '#ddd', padding: 8, fontWeight: 600 }}>2. 도서 정보</div>
-            <div style={{ padding: '12px', background: '#f5f5f5', borderRadius: 4 }}>
+            <div style={{ padding: 12, background: '#f5f5f5', borderRadius: 4 }}>
               <div><strong>제목:</strong> {title}</div>
               <div style={{ marginTop: 4 }}><strong>내용:</strong> {content}</div>
             </div>
@@ -236,7 +235,7 @@ const AICover = () => {
             </button>
           </div>
 
-          {/* 6. 미리보기 영역 */}
+          {/* 6. 미리보기 */}
           <div
             style={{
               background: '#f5f5f5',
@@ -251,7 +250,9 @@ const AICover = () => {
             {imageUrl ? (
               <img src={imageUrl} alt="생성된 커버" style={{ maxWidth: '100%', maxHeight: '100%' }} />
             ) : (
-              <span style={{ color: '#777', fontSize: 16 }}>{loading ? '생성 중...' : '<표지 없음>'}</span>
+              <span style={{ color: '#777', fontSize: 16 }}>
+                {loading ? '생성 중...' : '<표지 없음>'}
+              </span>
             )}
           </div>
 

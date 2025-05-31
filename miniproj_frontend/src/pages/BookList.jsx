@@ -1,4 +1,3 @@
-// src/pages/BookList.jsx
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchBooks } from '../api/bookApi';
@@ -77,9 +76,9 @@ const BookList = () => {
             >
               {/* 커버 이미지 또는 대체 UI */}
               <div style={coverStyle}>
-                {book.cover ? (
+                {book.coverImageUrl ? (
                   <img
-                    src={book.cover}
+                    src={book.coverImageUrl}
                     alt="커버"
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   />
