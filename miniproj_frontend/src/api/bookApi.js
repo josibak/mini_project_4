@@ -1,19 +1,15 @@
 import axiosInstance from './axios';
 
-// 전체 도서 조회
-export const fetchBooks = async (title = '') => {
+// 도서 전체 조회
+export const fetchBooks = async () => {
   try {
-    const response = await axiosInstance.get('', {
+    const response = await axiosInstance.get('/books', {
       params: title ? { title } : {},
     });
     console.log('📦 백엔드 응답:', response);
     return response.data;
   } catch (error) {
     console.error('Error fetching books:', error);
-    console.error('❌ Axios 요청 실패');
-    console.error('🔻 message:', error.message);
-    console.error('🔻 code:', error.code);
-    console.error('🔻 response:', error.response);
     throw error;
   }
 };
@@ -21,21 +17,21 @@ export const fetchBooks = async (title = '') => {
 // ID로 도서 조회
 export const fetchBookById = async (id) => {
   try {
-    const response = await axiosInstance.get(`/${id}`);
+    const response = await axiosInstance.get(`/books/${id}`);
     return response.data;
   } catch (error) {
-    console.error(`Error fetching book with id ${id}:`, error);
+    console.error(`도서 상세 조회 오류 (id: ${id})`, error);
     throw error;
   }
 };
 
-// 도서 생성
+// 도서 등록
 export const createBook = async (bookData) => {
   try {
-    const response = await axiosInstance.post('', bookData);
+    const response = await axiosInstance.post('/books', bookData);
     return response.data;
   } catch (error) {
-    console.error('Error creating book:', error);
+    console.error('도서 등록 오류:', error);
     throw error;
   }
 };
@@ -43,10 +39,10 @@ export const createBook = async (bookData) => {
 // 도서 수정
 export const updateBook = async (id, bookData) => {
   try {
-    const response = await axiosInstance.put(`/${id}`, bookData);
+    const response = await axiosInstance.patch(`/books/${id}`, bookData);
     return response.data;
   } catch (error) {
-    console.error(`Error updating book with id ${id}:`, error);
+    console.error(`도서 수정 오류 (id: ${id})`, error);
     throw error;
   }
 };
@@ -54,9 +50,9 @@ export const updateBook = async (id, bookData) => {
 // 도서 삭제
 export const deleteBook = async (id) => {
   try {
-    await axiosInstance.delete(`/${id}`);
+    await axiosInstance.delete(`/books/${id}`);
   } catch (error) {
-    console.error(`Error deleting book with id ${id}:`, error);
+    console.error(`도서 삭제 오류 (id: ${id})`, error);
     throw error;
   }
 };
