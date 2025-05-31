@@ -34,7 +34,7 @@ export async function generateImageFromPrompt(apiKey, prompt, model = 'dall-e-2'
       quality,            // ex: 'standard' or 'hd' (if using dall-e-3)
       style               // ex: 'vivid' or 'natural'
     }),
-  });s
+  });
 
   const data = await res.json();
   if (!data?.data?.[0]?.url) {

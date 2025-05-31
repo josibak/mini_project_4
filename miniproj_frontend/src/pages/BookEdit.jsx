@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { fetchBookById, updateBook } from '../api/bookApi';
+import { fetchBookById, updateBook, deleteBook } from '../api/bookApi';
 
 const BookEdit = () => {
   const navigate = useNavigate();
@@ -38,8 +38,20 @@ const BookEdit = () => {
 
   const handleAICover = () => {
     navigate('/ai-cover', {
-      state: { id: Number(id), title, description }, // ✅ 'content' → 'description' 으로 맞춤
+      state: { id: Number(id), title, description },
     });
+  };
+
+  // === 삭제 함수 추가 ===
+  const handleDelete = async () => {
+    if (!window.confirm("정말로 이 도서를 삭제하시겠습니까?")) return;
+    try {
+      await deleteBook(id);
+      alert("도서가 성공적으로 삭제되었습니다.");
+      navigate('/my');
+    } catch (error) {
+      alert('삭제 실패: ' + (error.response?.data?.message || '서버 오류'));
+    }
   };
 
   if (loading) return <p style={{ padding: 20 }}>로딩 중...</p>;
@@ -167,6 +179,23 @@ const BookEdit = () => {
               }}
             >
               저장
+            </button>
+            {/* === 삭제 버튼 추가 === */}
+            <button
+              onClick={handleDelete}
+              style={{
+                flex: 1,
+                background: '#ffbfcf',
+                color: '#ff0033',
+                border: 'none',
+                borderRadius: 6,
+                padding: '12px 0',
+                fontWeight: 700,
+                fontSize: 16,
+                cursor: 'pointer',
+              }}
+            >
+              삭제
             </button>
           </div>
         </div>
