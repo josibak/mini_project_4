@@ -1,63 +1,88 @@
-import React from 'react';
+// src/pages/BookDetail.jsx
+
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchBookById } from '../api/bookApi';
-// import mockBooks from '../data/mockBooks';
-import mockBooks from '../data/mockBooks';
-import mockUserBooks from '../data/mockUserBooks';
-// import axios from 'axios';
 
 const BookDetail = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
-  // const book = mockBooks.find(b => b.id === Number(id));
+  const { id } = useParams(); // URL에서 book_id 추출
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // ✅ 실제 API 연결 시 사용
-  /*
   useEffect(() => {
-    axios.get(`/api/books/${id}`).then(res => setBook(res.data));
-  }, [id]);
-  */
-
-  useEffect(() => {
-    const loadBooks = async() => {
+    const loadBook = async () => {
       try {
         const data = await fetchBookById(id);
         setBook(data);
       } catch (error) {
-        alert("도서 정보를 불러오는데 실패했습니다.");
+        alert('도서 정보를 불러오는 데 실패했습니다.');
       } finally {
         setLoading(false);
       }
     };
-    loadBooks();
+
+    loadBook();
   }, [id]);
 
+  if (loading) return <p style={{ padding: 20 }}>로딩 중...</p>;
   if (!book) return <p style={{ padding: 20 }}>도서 정보를 찾을 수 없습니다.</p>;
 
   return (
     <div style={{ fontFamily: 'sans-serif' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', backgroundColor: '#ddd', padding: '10px 20px' }}>
-        <span style={{ color: 'blue', cursor: 'pointer' }} onClick={() => navigate('/home')}>홈</span>
+      {/* 상단 네비게이션 */}
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          backgroundColor: '#ddd',
+          padding: '10px 20px',
+        }}
+      >
+        <span style={{ color: 'blue', cursor: 'pointer' }} onClick={() => navigate('/home')}>
+          홈
+        </span>
         <h3 style={{ margin: 0 }}>도서 상세 정보</h3>
-        <span style={{ color: 'blue', cursor: 'pointer' }} onClick={() => navigate('/my')}>My</span>
+        <span style={{ color: 'blue', cursor: 'pointer' }} onClick={() => navigate('/my')}>
+          My
+        </span>
       </div>
 
+      {/* 도서 정보 영역 */}
       <div style={{ backgroundColor: '#eee', padding: 30, margin: 30 }}>
         <div style={{ display: 'flex', gap: 20 }}>
-          <div style={coverStyle}>커버</div>
+          {/* 커버 이미지 또는 대체 UI */}
+          <div style={coverStyle}>
+            {book.cover ? (
+              <img
+                src={book.cover}
+                alt="커버"
+                style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 4 }}
+              />
+            ) : (
+              <span style={{ color: 'white', fontWeight: 'bold' }}>표지 없음</span>
+            )}
+          </div>
+
+          {/* 책 메타 정보 */}
           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            <div><strong>제목:</strong> {book.title}</div>
-            <div><strong>작가:</strong> {book.author}</div>
-            <div><strong>등록일:</strong> {book.created_at}</div>
-            <div><strong>최종 수정일:</strong> {book.updated_at}</div>
+            <div>
+              <strong>제목:</strong> {book.title}
+            </div>
+            <div>
+              <strong>작가:</strong> {book.author || '정보 없음'}
+            </div>
+            <div>
+              <strong>등록일:</strong> {book.createdAt?.split('T')[0] || 'N/A'}
+            </div>
+            <div>
+              <strong>최종 수정일:</strong> {book.updatedAt?.split('T')[0] || 'N/A'}
+            </div>
           </div>
         </div>
 
-        <div style={scrollBoxStyle}>
-          {book.content}
-        </div>
+        {/* 내용 스크롤 박스 */}
+        <div style={scrollBoxStyle}>{book.content}</div>
       </div>
     </div>
   );
@@ -70,6 +95,8 @@ const coverStyle = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  overflow: 'hidden',
+  borderRadius: 4,
 };
 
 const scrollBoxStyle = {
