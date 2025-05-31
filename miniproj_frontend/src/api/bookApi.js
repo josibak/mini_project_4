@@ -37,7 +37,7 @@ export const createBook = async (bookData) => {
 // 도서 수정
 export const updateBook = async (id, bookData) => {
   try {
-    const response = await axiosInstance.patch(`/books/${id}`, bookData);
+    const response = await axiosInstance.put(`/books/${id}`, bookData);
     return response.data;
   } catch (error) {
     console.error(`도서 수정 오류 (id: ${id})`, error);
