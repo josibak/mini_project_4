@@ -70,7 +70,7 @@ const BookDetail = () => {
               <strong>제목:</strong> {book.title}
             </div>
             <div>
-              <strong>작가:</strong> {book.author || '정보 없음'}
+              <strong>작가:</strong> {book.username || '정보 없음'}
             </div>
             <div>
               <strong>등록일:</strong> {book.createdAt?.split('T')[0] || 'N/A'}

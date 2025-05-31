@@ -9,11 +9,15 @@ const BookCreate = () => {
   const [description, setDescription] = useState('');
   const navigate = useNavigate();
 
-  // AI 커버 생성 페이지로 넘어가기
+  // AI 커버 생성 페이지로 이동
   const handleAICover = async () => {
     try {
       const user = JSON.parse(localStorage.getItem('user'));
-      const created = await createBook({ title, description, userId: user?.id });
+      const created = await createBook({
+        title,
+        description,
+        userId: user?.userId  // ✅ userId 정확히 전달
+      });
       navigate('/ai-cover', {
         state: {
           id: created.id,
@@ -26,11 +30,15 @@ const BookCreate = () => {
     }
   };
 
-  // 단순 저장
+  // 저장 후 마이페이지로 이동
   const handleSave = async () => {
     try {
       const user = JSON.parse(localStorage.getItem('user'));
-      await createBook({ title, description, userId: user?.id });
+      await createBook({
+        title,
+        description,
+        userId: user?.userId  // ✅ userId 정확히 전달
+      });
       navigate('/my');
     } catch (error) {
       alert('도서 등록 실패: ' + (error.response?.data?.message || '서버 오류'));
@@ -79,7 +87,7 @@ const BookCreate = () => {
             boxSizing: 'border-box',
           }}
         >
-          {/* 책 제목 */}
+          {/* 책 제목 입력 */}
           <div style={{ marginBottom: 20 }}>
             <div style={{ background: '#ddd', padding: 8, fontWeight: 600, marginBottom: 8 }}>
               1. 책 제목
@@ -103,7 +111,7 @@ const BookCreate = () => {
             />
           </div>
 
-          {/* 책 설명 */}
+          {/* 책 설명 입력 */}
           <div style={{ marginBottom: 32 }}>
             <div style={{ background: '#ddd', padding: 8, fontWeight: 600, marginBottom: 8 }}>
               2. 내용

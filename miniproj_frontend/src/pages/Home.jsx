@@ -12,7 +12,11 @@ const Home = () => {
     const loadBooks = async () => {
       try {
         const data = await fetchBooks();
-        const recentBooks = data.slice(0, 3);
+        // 최신 도서를 보여주기 위해 정렬 후 slice
+        const recentBooks = data
+          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // 최신순 정렬
+          .slice(0, 3); // 최신 3권 추출
+
         setBooks(recentBooks);
       } catch (error) {
         console.error('도서 목록 불러오기 실패:', error);
@@ -113,7 +117,7 @@ const Home = () => {
                   {book.title}
                 </div>
                 <div style={{ marginTop: 4, color: '#555' }}>
-                  {book.author || '작가 미상'}
+                  {book.username || '작가 미상'}
                 </div>
               </div>
             ))

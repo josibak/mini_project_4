@@ -24,7 +24,7 @@ const BookList = () => {
   }, []);
 
   const filteredBooks = books.filter((book) =>
-    [book.title, book.author, book.description]
+    [book.title, book.username, book.description]
       .filter(Boolean)
       .join(' ')
       .toLowerCase()
@@ -91,7 +91,7 @@ const BookList = () => {
                 <div>
                   <strong>{book.title}</strong>
                 </div>
-                <div>{book.author || '작가 정보 없음'}</div>
+                <div>{book.username || '작가 정보 없음'}</div>
                 <div>{book.description || '설명 없음'}</div>
               </div>
             </div>

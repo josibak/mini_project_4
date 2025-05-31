@@ -15,7 +15,7 @@ const UserBookList = () => {
         const data = await fetchBooks(); // 전체 도서 불러오기
 
         const user = JSON.parse(localStorage.getItem('user'));
-        const userId = user?.id;
+        const userId = user?.userId; // ✅ 정확한 키 사용
 
         if (!userId) {
           alert('로그인이 필요합니다.');
@@ -34,6 +34,7 @@ const UserBookList = () => {
 
     loadBooks();
   }, [navigate]);
+
 
   if (loading) return <p style={{ padding: 20 }}>로딩 중...</p>;
 

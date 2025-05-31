@@ -26,13 +26,15 @@ export const fetchBookById = async (id) => {
 // 도서 등록
 export const createBook = async (bookData) => {
   try {
+    console.log('[요청 데이터]', bookData);  // 🔍 디버깅용
     const response = await axiosInstance.post('/books', bookData);
     return response.data;
   } catch (error) {
-    console.error('도서 등록 오류:', error);
+    console.error('도서 등록 오류:', error.response?.data || error.message);
     throw error;
   }
 };
+
 
 // 도서 수정
 export const updateBook = async (id, bookData) => {

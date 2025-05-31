@@ -9,7 +9,7 @@ const axiosInstance = axios.create({
   },
 });
 
-// 요청 시 토큰 자동 삽입 (지금은 사용하지 않지만 유지)
+// 요청 시 토큰 자동 삽입
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
