@@ -12,8 +12,19 @@ const UserBookList = () => {
   useEffect(() => {
     const loadBooks = async () => {
       try {
-        const data = await fetchBooks(); // GET /api/books
-        setUserBooks(data);
+        const data = await fetchBooks(); // 전체 도서 불러오기
+
+        const user = JSON.parse(localStorage.getItem('user'));
+        const userId = user?.id;
+
+        if (!userId) {
+          alert('로그인이 필요합니다.');
+          navigate('/login');
+          return;
+        }
+
+        const filtered = data.filter((book) => book.userId === userId);
+        setUserBooks(filtered);
       } catch (error) {
         alert('도서 목록 불러오기 실패: ' + (error.response?.data?.message || '서버 오류'));
       } finally {
@@ -22,7 +33,7 @@ const UserBookList = () => {
     };
 
     loadBooks();
-  }, []);
+  }, [navigate]);
 
   if (loading) return <p style={{ padding: 20 }}>로딩 중...</p>;
 

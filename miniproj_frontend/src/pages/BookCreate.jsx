@@ -6,18 +6,19 @@ import { createBook } from '../api/bookApi';
 
 const BookCreate = () => {
   const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [description, setDescription] = useState('');
   const navigate = useNavigate();
 
-  // AI 커버 생성 페이지로 넘어가기 (id, title, content 전달)
+  // AI 커버 생성 페이지로 넘어가기
   const handleAICover = async () => {
     try {
-      const created = await createBook({ title, content });
+      const user = JSON.parse(localStorage.getItem('user'));
+      const created = await createBook({ title, description, userId: user?.id });
       navigate('/ai-cover', {
         state: {
           id: created.id,
           title: created.title,
-          content: created.content,
+          description: created.description,
         },
       });
     } catch (error) {
@@ -28,7 +29,8 @@ const BookCreate = () => {
   // 단순 저장
   const handleSave = async () => {
     try {
-      await createBook({ title, content });
+      const user = JSON.parse(localStorage.getItem('user'));
+      await createBook({ title, description, userId: user?.id });
       navigate('/my');
     } catch (error) {
       alert('도서 등록 실패: ' + (error.response?.data?.message || '서버 오류'));
@@ -77,7 +79,7 @@ const BookCreate = () => {
             boxSizing: 'border-box',
           }}
         >
-          {/* 1. 책 제목 */}
+          {/* 책 제목 */}
           <div style={{ marginBottom: 20 }}>
             <div style={{ background: '#ddd', padding: 8, fontWeight: 600, marginBottom: 8 }}>
               1. 책 제목
@@ -101,14 +103,14 @@ const BookCreate = () => {
             />
           </div>
 
-          {/* 2. 내용 */}
+          {/* 책 설명 */}
           <div style={{ marginBottom: 32 }}>
             <div style={{ background: '#ddd', padding: 8, fontWeight: 600, marginBottom: 8 }}>
               2. 내용
             </div>
             <textarea
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
               placeholder="책 내용을 입력하세요"
               style={{
                 width: '100%',
@@ -125,7 +127,7 @@ const BookCreate = () => {
             />
           </div>
 
-          {/* 3. 버튼들 */}
+          {/* 버튼 */}
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
             <button
               onClick={handleAICover}

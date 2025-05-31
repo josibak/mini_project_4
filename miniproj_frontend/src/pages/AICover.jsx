@@ -9,23 +9,19 @@ const AICover = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // BookCreate/BookEdit에서 전달된 값
   const title = location.state?.title || '제목 없음';
   const bookId = location.state?.id;
-  const content = location.state?.content || '';
+  const description = location.state?.description || ''; // ✅ 변수명 변경
 
-  // 로컬 상태들
   const [apiKey, setApiKey] = useState('');
   const [prompt, setPrompt] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // 모델/옵션 선택 상태
   const [model, setModel] = useState('dall-e-3');
   const [quality, setQuality] = useState('standard');
   const [style, setStyle] = useState('vivid');
 
-  // “표지 생성” 클릭 시
   const handleGenerate = async () => {
     if (!apiKey || !prompt) {
       alert('API 키와 프롬프트를 모두 입력하세요.');
@@ -34,7 +30,7 @@ const AICover = () => {
 
     try {
       setLoading(true);
-      const fullPrompt = `제목: ${title}\n내용: ${content}\n요청: ${prompt}`;
+      const fullPrompt = `제목: ${title}\n내용: ${description}\n요청: ${prompt}`; // ✅ 내용 출력도 변경
       const url = await generateImageFromPrompt(apiKey, fullPrompt, model, quality, style);
       setImageUrl(url);
     } catch (err) {
@@ -45,7 +41,6 @@ const AICover = () => {
     }
   };
 
-  // “저장” 클릭 시
   const handleSave = async () => {
     if (!bookId) {
       alert('도서 ID가 없습니다.');
@@ -53,7 +48,7 @@ const AICover = () => {
     }
 
     try {
-      await updateBook(bookId, { coverImageUrl: imageUrl || null }); // ✅ 수정된 부분
+      await updateBook(bookId, { coverImageUrl: imageUrl || null });
       navigate('/my');
     } catch (error) {
       alert('커버 저장 실패');
@@ -63,7 +58,6 @@ const AICover = () => {
 
   return (
     <div style={{ fontFamily: 'sans-serif', background: '#f7f7f7', minHeight: '100vh' }}>
-      {/* 상단 네비게이션 */}
       <div
         style={{
           display: 'flex',
@@ -129,7 +123,7 @@ const AICover = () => {
             <div style={{ background: '#ddd', padding: 8, fontWeight: 600 }}>2. 도서 정보</div>
             <div style={{ padding: 12, background: '#f5f5f5', borderRadius: 4 }}>
               <div><strong>제목:</strong> {title}</div>
-              <div style={{ marginTop: 4 }}><strong>내용:</strong> {content}</div>
+              <div style={{ marginTop: 4 }}><strong>내용:</strong> {description}</div> {/* ✅ 출력 수정 */}
             </div>
           </div>
 

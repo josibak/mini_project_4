@@ -81,8 +81,8 @@ const BookDetail = () => {
           </div>
         </div>
 
-        {/* 책 내용 */}
-        <div style={scrollBoxStyle}>{book.content}</div>
+        {/* 책 설명 */}
+        <div style={scrollBoxStyle}>{book.description}</div>
       </div>
     </div>
   );

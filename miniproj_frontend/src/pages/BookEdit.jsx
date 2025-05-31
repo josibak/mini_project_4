@@ -8,7 +8,7 @@ const BookEdit = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [description, setDescription] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -16,7 +16,7 @@ const BookEdit = () => {
       try {
         const data = await fetchBookById(id);
         setTitle(data.title);
-        setContent(data.content);
+        setDescription(data.description);
       } catch (error) {
         alert('도서 정보를 불러오는 데 실패했습니다.');
       } finally {
@@ -26,20 +26,19 @@ const BookEdit = () => {
     loadBook();
   }, [id]);
 
-  // 저장
   const handleSave = async () => {
     try {
-      await updateBook(id, { title, content });
+      const user = JSON.parse(localStorage.getItem('user'));
+      await updateBook(id, { title, description, userId: user?.id });
       navigate('/my');
     } catch (error) {
       alert('수정 실패: ' + (error.response?.data?.message || '서버 오류'));
     }
   };
 
-  // AI 커버 생성 페이지로 이동 (id, title, content 전달)
   const handleAICover = () => {
     navigate('/ai-cover', {
-      state: { id: Number(id), title, content },
+      state: { id: Number(id), title, description }, // ✅ 'content' → 'description' 으로 맞춤
     });
   };
 
@@ -117,8 +116,8 @@ const BookEdit = () => {
               2. 내용
             </div>
             <textarea
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
               placeholder="책 내용을 입력하세요"
               style={{
                 width: '100%',
