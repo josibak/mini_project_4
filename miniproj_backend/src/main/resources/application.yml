@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    url: jdbc:h2:file:~/librarytestdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: 1234
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    defer-datasource-initialization: true  # ★ 반드시 jpa 블록 안에 위치!
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console # ?? URL (http://localhost:8081/h2-console)
+
+  sql:
+    init:
+      mode: always
+
+server:
+  port: 8081
